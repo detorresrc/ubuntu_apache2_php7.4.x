@@ -92,6 +92,18 @@ RUN cd /usr/local/src \
     && cd /usr/local/src/ \
     && rm -Rf php-7.4.10.tar.bz2 php-7.4.10
 
+# Install PHP-Redis
+RUN cd /usr/local/src \
+    && wget https://github.com/phpredis/phpredis/archive/develop.zip -O phpredis-develop.zip \
+    && unzip phpredis-develop.zip \
+    && cd phpredis-develop \
+    && /usr/local/php/bin/phpize \
+    && ./configure --with-php-config=/usr/local/php/bin/php-config \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -Rf phpredis-develop.zipphpredis-develop
+
 # Setup supervisor
 RUN apt install -y supervisor
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -107,6 +119,9 @@ COPY config/cache.conf /usr/local/conf/extra/cache.conf
 COPY config/php.prod.ini /usr/local/etc/php.ini
 COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY src/index.php /var/www/
+
+COPY scripts/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/apache2.sh /usr/local/bin/php-fpm.sh
 
 EXPOSE 80
 
