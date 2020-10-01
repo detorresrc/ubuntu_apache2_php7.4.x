@@ -102,7 +102,7 @@ RUN cd /usr/local/src \
     && make \
     && make install \
     && cd .. \
-    && rm -Rf phpredis-develop.zipphpredis-develop
+    && rm -Rf phpredis-develop.zip phpredis-develop
 
 # Setup supervisor
 RUN apt install -y supervisor
