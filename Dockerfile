@@ -33,7 +33,7 @@ RUN apt update \
 
 # Compile Apache
 RUN cd /usr/local/src \
-    && wget http://mirror.rise.ph/apache//httpd/httpd-2.4.46.tar.bz2 -O httpd-2.4.46.tar.bz2 \
+    && wget http://mirror.rise.ph/apache/httpd/httpd-2.4.46.tar.bz2 -O httpd-2.4.46.tar.bz2 \
     && tar -xjf  httpd-2.4.46.tar.bz2 \
     && rm httpd-2.4.46.tar.bz2 \
     && cd /usr/local/src/httpd-2.4.46 \
@@ -61,9 +61,9 @@ RUN cd /usr/local/src/ \
 
 # Compile PHP
 RUN cd /usr/local/src \
-    && wget https://www.php.net/distributions/php-7.4.10.tar.bz2 -O php-7.4.10.tar.bz2 \
-    && tar -xjf php-7.4.10.tar.bz2 \
-    && cd /usr/local/src/php-7.4.10 \
+    && wget https://www.php.net/distributions/php-7.4.14.tar.bz2 -O php-7.4.14.tar.bz2 \
+    && tar -xjf php-7.4.14.tar.bz2 \
+    && cd /usr/local/src/php-7.4.14 \
     && ./configure --prefix=/usr/local/php \
     --with-config-file-path=/usr/local/etc \
     --with-apxs2=/usr/local/bin/apxs \
@@ -84,13 +84,12 @@ RUN cd /usr/local/src \
     --enable-bcmath \
     --enable-calendar \
     --enable-ftp \
-    --without-iconv \
     --enable-sockets \
     --with-xsl \
     && make \
     && make install \
     && cd /usr/local/src/ \
-    && rm -Rf php-7.4.10.tar.bz2 php-7.4.10
+    && rm -Rf php-7.4.14.tar.bz2 php-7.4.14
 
 # Install PHP-Redis
 RUN cd /usr/local/src \
@@ -118,7 +117,7 @@ COPY config/security.conf /usr/local/conf/extra/security.conf
 COPY config/cache.conf /usr/local/conf/extra/cache.conf
 COPY config/php.prod.ini /usr/local/etc/php.ini
 COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY src/index.php /var/www/
+COPY src/* /var/www/
 
 COPY scripts/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/apache2.sh /usr/local/bin/php-fpm.sh
