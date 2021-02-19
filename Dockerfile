@@ -86,6 +86,9 @@ RUN cd /usr/local/src \
     --enable-ftp \
     --enable-sockets \
     --with-xsl \
+    --with-jpeg \
+    --with-freetype \
+    --enable-gd \
     && make \
     && make install \
     && cd /usr/local/src/ \
